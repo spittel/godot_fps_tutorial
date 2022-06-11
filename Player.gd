@@ -30,10 +30,8 @@ func process_input(delta):
 	# walking
 	dir = Vector3()
 	var cam_xform = camera.get_global_transform()
-#	camera.get_
-	
 	var input_movement_vector = Vector2()
-	
+
 	if Input.is_action_pressed("movement_forward"):
 		input_movement_vector.y +=1
 	if Input.is_action_pressed("movement_backward"):
@@ -44,17 +42,23 @@ func process_input(delta):
 		input_movement_vector.x +=1
 
 	input_movement_vector = input_movement_vector.normalized()
-	
+
 	# Basis vectors are already normalized
-#	var zee = cam_xform.basis.z
 	dir += -cam_xform.basis.z * input_movement_vector.y
 	dir += cam_xform.basis.x * input_movement_vector.x
 	
-	# try and get left and right, forward and back to be relative to
-	# plane camera is pointing
-#	dir += -1 * input_movement_vector.y
-#	dir += 1 * input_movement_vector.x
 
+	# using local vectors , see https://docs.godotengine.org/en/3.2/tutorials/3d/fps_tutorial/part_one.html
+#	var node = $Rotation_Helper
+#
+#	if Input.is_action_pressed("movement_forward"):
+#		node.translate(node.global_transform.basis.z.normalized())
+#	if Input.is_action_pressed("movement_backward"):
+#		node.translate(-node.global_transform.basis.z.normalized())
+#	if Input.is_action_pressed("movement_left"):
+#		node.translate(node.global_transform.basis.x.normalized())
+#	if Input.is_action_pressed("movement_right"):
+#		node.translate(-node.global_transform.basis.x.normalized())
 	
 	# Jumping
 #	if is_on_floor():
