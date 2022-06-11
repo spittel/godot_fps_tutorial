@@ -30,6 +30,7 @@ func process_input(delta):
 	# walking
 	dir = Vector3()
 	var cam_xform = camera.get_global_transform()
+#	camera.get_
 	
 	var input_movement_vector = Vector2()
 	
@@ -45,13 +46,13 @@ func process_input(delta):
 	input_movement_vector = input_movement_vector.normalized()
 	
 	# Basis vectors are already normalized
-	var zee = cam_xform.basis.z
+#	var zee = cam_xform.basis.z
 	dir += -cam_xform.basis.z * input_movement_vector.y
 	dir += cam_xform.basis.x * input_movement_vector.x
 	
 	# try and get left and right, forward and back to be relative to
 	# plane camera is pointing
-#	dir += -1 *input_movement_vector.y
+#	dir += -1 * input_movement_vector.y
 #	dir += 1 * input_movement_vector.x
 
 	
