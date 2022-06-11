@@ -2,14 +2,14 @@ extends KinematicBody
 
 const GRAVITY = -24.8
 var vel = Vector3()
-const MAX_SPEED = 20
+const MAX_SPEED = 30
 const JUMP_SPEED = 18
-const ACCEL = 4.5
+const ACCEL = 10
 
 var dir = Vector3()
 
-const DEACCELL = 16
-const MAX_SLOPE_ANGLE = 40
+const DEACCELL = 1
+const MAX_SLOPE_ANGLE = 100
 
 var camera
 var rotation_helper
@@ -30,7 +30,7 @@ func process_input(delta):
 	# walking
 	dir = Vector3()
 	var cam_xform = camera.get_global_transform()
-	var input_movement_vector = Vector2()
+	var input_movement_vector = Vector3()
 
 	if Input.is_action_pressed("movement_forward"):
 		input_movement_vector.y +=1
@@ -40,33 +40,18 @@ func process_input(delta):
 		input_movement_vector.x -=1
 	if Input.is_action_pressed("movement_right"):
 		input_movement_vector.x +=1
+	# Ascend/descend
+	if Input.is_action_pressed("movement_jump"):
+		input_movement_vector.z +=1
+	if Input.is_action_pressed("movement_descend"):
+		input_movement_vector.z -=1
 
 	input_movement_vector = input_movement_vector.normalized()
 
 	# Basis vectors are already normalized
 	dir += -cam_xform.basis.z * input_movement_vector.y
 	dir += cam_xform.basis.x * input_movement_vector.x
-	
-
-	# using local vectors , see https://docs.godotengine.org/en/3.2/tutorials/3d/fps_tutorial/part_one.html
-#	var node = $Rotation_Helper
-#
-#	if Input.is_action_pressed("movement_forward"):
-#		node.translate(node.global_transform.basis.z.normalized())
-#	if Input.is_action_pressed("movement_backward"):
-#		node.translate(-node.global_transform.basis.z.normalized())
-#	if Input.is_action_pressed("movement_left"):
-#		node.translate(node.global_transform.basis.x.normalized())
-#	if Input.is_action_pressed("movement_right"):
-#		node.translate(-node.global_transform.basis.x.normalized())
-	
-	# Jumping
-#	if is_on_floor():
-	if Input.is_action_just_pressed("movement_jump"):
-		vel.y = JUMP_SPEED
-
-	if Input.is_action_just_pressed("movement_descend"):
-		vel.y = -JUMP_SPEED
+	dir += cam_xform.basis.y * input_movement_vector.z
 			
 	# capturing/freeing the cursor
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -74,29 +59,11 @@ func process_input(delta):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
 			Input.set_mouse_mode((Input.MOUSE_MODE_VISIBLE))
-			
 
-	
 func process_movement(delta):
-	dir.y = 0
-	dir = dir.normalized()
+#	dir = dir.normalized()
 
-	# decel but can hover
-	if(vel.y > 0):
-		vel.y += delta * -DEACCELL
-
-	if(vel.y < 0):
-		vel.y += delta * DEACCELL
-
-
-	# deal with overshot on decel
-	if((vel.y < 0 and vel.y > -1) or 
-	(vel.y > 0 and vel.y < 1)):
-		vel.y = 0;
-	
-	
 	var hvel = vel
-	hvel.y = 0
 	
 	var target = dir
 	target *= MAX_SPEED
@@ -110,6 +77,7 @@ func process_movement(delta):
 	hvel = hvel.linear_interpolate(target, accel * delta)
 	vel.x = hvel.x
 	vel.z = hvel.z
+	vel.y = hvel.y
 	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
 	
 func _input(event):
