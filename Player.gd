@@ -1,16 +1,12 @@
 extends KinematicBody
 
-const GRAVITY = -24.8
-var vel = Vector3()
 const MAX_SPEED = 30
-const JUMP_SPEED = 18
 const ACCEL = 10
-
-var dir = Vector3()
-
 const DEACCELL = 1
 const MAX_SLOPE_ANGLE = 100
 
+var vel = Vector3()
+var dir = Vector3()
 var camera
 var rotation_helper
 
@@ -61,24 +57,21 @@ func process_input(delta):
 			Input.set_mouse_mode((Input.MOUSE_MODE_VISIBLE))
 
 func process_movement(delta):
-#	dir = dir.normalized()
+	var newVel = vel
 
-	var hvel = vel
-	
 	var target = dir
+	
 	target *= MAX_SPEED
 	
-	var accel
-	if dir.dot(hvel) > 0:
-		accel = ACCEL
+	newVel = newVel.linear_interpolate(target, calculate_acceleration(newVel) * delta)
+	
+	vel = move_and_slide(newVel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
+	
+func calculate_acceleration(newVel):
+	if dir.dot(newVel) > 0:
+		return ACCEL
 	else:
-		accel = DEACCELL
-		
-	hvel = hvel.linear_interpolate(target, accel * delta)
-	vel.x = hvel.x
-	vel.z = hvel.z
-	vel.y = hvel.y
-	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
+		return DEACCELL
 	
 func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -88,5 +81,3 @@ func _input(event):
 		var camera_rot = rotation_helper.rotation_degrees
 		camera_rot.x = clamp(camera_rot.x, -70, 70)
 		rotation_helper.rotation_degrees = camera_rot
-	
-
