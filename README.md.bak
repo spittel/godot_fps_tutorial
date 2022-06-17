@@ -5,7 +5,8 @@ With edits and changes to make a newtonion physics based space shooter like aste
 
 - TODO: figure out proper movement
     - have go up and float and descend (zero grav)
-    -  have wasd and up and descend apply relative to view 
+    - have wasd and up and descend apply relative to view 
+	- have it drift
 - TODO: make environment nice
     -  make walls and ground invisible
     -  put in a dark world environent

@@ -17,3 +17,16 @@ With edits and changes to make a newtonion physics based space shooter like aste
 - TODO: figure out HUD
 - TODO: figure out cockpit
     - TODO: figure out blender enough to make a cockpit
+	
+	
+	
+Controls tutorials
+https://kidscancode.org/godot_recipes/3d/spaceship/
+	
+GRAND IDEAS
+	- shadow of the colossus but with spaceships
+	- sense of speed
+		- lots of debris asteroids to zoom and hide behind
+		- set amount of rechargeable energy to zoom, and brake
+			- zoom shake!
+			

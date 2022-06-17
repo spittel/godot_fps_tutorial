@@ -3850,7 +3850,6 @@ use_filter = true
 font_data = ExtResource( 8 )
 
 [node name="Player" type="KinematicBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0 )
 script = ExtResource( 9 )
 
 [node name="Body_CollisionShape" type="CollisionShape" parent="."]

@@ -1,8 +1,8 @@
 extends KinematicBody
 
 const MAX_SPEED = 30
-const ACCEL = 10
-const DEACCELL = 1
+const ACCEL = 3
+const DEACCELL = 0.5
 const MAX_SLOPE_ANGLE = 100
 
 var vel = Vector3()
@@ -32,6 +32,7 @@ func process_input(delta):
 	roll_left = false
 
 	var cam_xform = camera.get_global_transform()
+
 	var input_movement_vector = Vector3()
 
 	if Input.is_action_pressed("movement_forward"):
@@ -77,7 +78,6 @@ func process_movement(delta):
 	newVel = newVel.linear_interpolate(target, calculate_acceleration(newVel) * delta)
 	
 	vel = move_and_slide(newVel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
-	
 	if(roll_left):
 		rotate(Vector3(0, 0, 1), -.05)
 	if(roll_right):
