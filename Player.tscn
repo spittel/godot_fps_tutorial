@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://assets/Colors.material" type="Material" id=1]
 [ext_resource path="res://assets/Emission.material" type="Material" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/32-32_white.png" type="Texture" id=7]
 [ext_resource path="res://assets/Titillium-Regular.otf" type="DynamicFontData" id=8]
 [ext_resource path="res://Player.gd" type="Script" id=9]
+[ext_resource path="res://cockpit.glb" type="PackedScene" id=10]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -4116,6 +4117,9 @@ spot_angle = 50.0
 
 [node name="Grenade_Toss_Pos" type="Spatial" parent="Rotation_Helper"]
 transform = Transform( 1, 0, 0, 0, 0.983001, 0.1836, 0, -0.1836, 0.983001, 0, -0.411827, 1.2795 )
+
+[node name="cockpit" parent="Rotation_Helper" instance=ExtResource( 10 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -1.2, 0.3 )
 
 [node name="HUD" type="Control" parent="."]
 anchor_right = 1.0
