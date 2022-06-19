@@ -4072,7 +4072,7 @@ anims/Rifle_unequip = SubResource( 21 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.065 )
 current = true
 fov = 90.0
-far = 180.0
+far = 2449.8
 
 [node name="Gun_Fire_Points" type="Spatial" parent="Rotation_Helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.3914, 0 )
@@ -4228,3 +4228,8 @@ text = "You died
 0.00 seconds till respawn"
 align = 1
 valign = 1
+
+[node name="MainThrusterSound" type="AudioStreamPlayer3D" parent="."]
+
+[node name="SaggitalThrusterSound" type="AudioStreamPlayer3D" parent="."]
+unit_db = 12.616

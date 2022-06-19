@@ -21,16 +21,22 @@ var yaw_input = 0
 
 var is_drift = false
 
+const SAGGITAL_MULTIPLIER = 50
+
 var MOUSE_SENSITIVITY = 0.05
 var camera
 var rotation_helper
+
+var thrusters = preload("res://assets/sounds/main_thrusters.mp3")
+var sagittal = preload("res://assets/sounds/sagittal_thrusters.mp3")
+
 
 func _ready():
 	camera = $Rotation_Helper/Camera
 	rotation_helper = $Rotation_Helper
 
+
 func get_input(delta):
-	
 	# capturing/freeing the cursor
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
@@ -38,23 +44,8 @@ func get_input(delta):
 		else:
 			Input.set_mouse_mode((Input.MOUSE_MODE_VISIBLE))
 
-	# https://kidscancode.org/godot_recipes/3d/spaceship/
-	if Input.is_action_pressed("throttle_up"):
-		forward_speed = lerp(forward_speed,
-			Input.get_action_strength("throttle_up")*100,
-			acceleration * delta)
+	handle_thrust(delta)
 			
-	if Input.is_action_pressed("throttle_down"):
-		forward_speed = lerp(forward_speed,
-			-Input.get_action_strength("throttle_down")*50,
-			acceleration * delta)
-			
-	if(forward_speed > max_speed):
-		forward_speed = max_speed
-			
-	is_drift = Input.is_action_pressed("drift")
-	
-
 	pitch_input = lerp(pitch_input,
 			Input.get_action_strength("pitch_up") - Input.get_action_strength("pitch_down"),
 			input_response * delta)
@@ -67,16 +58,48 @@ func get_input(delta):
 			Input.get_action_strength("yaw_left") - Input.get_action_strength("yaw_right"),
 			input_response * delta)
 
-	# saggital plane
-	horiz_speed = lerp(horiz_speed,
-			Input.get_action_strength("horiz_right")*50 - Input.get_action_strength("horiz_left")*50,
-			input_response * delta)
+	handle_saggital_thrust(delta)
+	
+	
+func handle_thrust(delta):
+	if Input.is_action_pressed("throttle_up"):
+		forward_speed = lerp(forward_speed,
+			Input.get_action_strength("throttle_up")*100,
+			acceleration * delta)
+			
+		if !$MainThrusterSound.is_playing():
+			$MainThrusterSound.stream = thrusters
+			$MainThrusterSound.play()
 
-	vert_speed = lerp(vert_speed,
-			Input.get_action_strength("vert_up")*50 - Input.get_action_strength("vert_down")*50,
-			input_response * delta)
-	
-	
+	if Input.is_action_just_released("throttle_up"):
+		$MainThrusterSound.stop()
+		
+	if Input.is_action_pressed("throttle_down"):
+		forward_speed = lerp(forward_speed,
+			-Input.get_action_strength("throttle_down")*50,
+			acceleration * delta)
+			
+	if(forward_speed > max_speed):
+		forward_speed = max_speed
+			
+	is_drift = Input.is_action_pressed("drift")
+		
+
+func handle_saggital_thrust(delta):
+	var horiz_input = Input.get_action_strength("horiz_right") * SAGGITAL_MULTIPLIER  - Input.get_action_strength("horiz_left") * SAGGITAL_MULTIPLIER
+	horiz_speed = lerp(horiz_speed, horiz_input, input_response * delta)
+
+	var vert_input = Input.get_action_strength("vert_up") * SAGGITAL_MULTIPLIER - Input.get_action_strength("vert_down") * SAGGITAL_MULTIPLIER
+	vert_speed = lerp(vert_speed, vert_input, input_response * delta)
+
+	if(horiz_input != 0 || vert_input !=0):
+		if !$SaggitalThrusterSound.is_playing():
+			$SaggitalThrusterSound.stream = sagittal
+			$SaggitalThrusterSound.play()
+	else:
+		if $SaggitalThrusterSound.is_playing():
+			$SaggitalThrusterSound.stop()
+
 
 func _physics_process(delta):
 	get_input(delta)
@@ -89,8 +112,6 @@ func _physics_process(delta):
 
 	if !is_drift:
 		velocity = transform.basis.z * -forward_speed + transform.basis.y * vert_speed + transform.basis.x * horiz_speed
-#	else:
-#		velocity = -velocity.z*1.0 + transform.basis.y * vert_speed + transform.basis.x * horiz_speed
 
 	
 	$HUD/Panel/Gun_label.text= "Velocity:" + str(int(forward_speed))
