@@ -3865,6 +3865,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.239, 0 )
 
 [node name="Model" type="Spatial" parent="Rotation_Helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.405, 0 )
+visible = false
 
 [node name="Armature" type="Spatial" parent="Rotation_Helper/Model"]
 
