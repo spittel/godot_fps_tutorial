@@ -11,9 +11,31 @@ With edits and changes to make a newtonion physics based space shooter like aste
     -  make walls and ground invisible
     -  put in a dark world environent
 	- TODO: get a spacey skybox?
+
+- TODO: volumetric nebula in Blenderhttps://www.youtube.com/watch?v=kYv3ZIlb_sU
+
+
 - TODO: figure out proc gen rocks
    - TODO: figure out breaking up and applying momentum to smaller rocks from larger rock destroyed
-- TODO: get sounds for thrusters
+	- TODO: or do a capital ship thing
+- TODO: zoom shake
 - TODO: figure out HUD
-- TODO: figure out cockpit
-    - TODO: figure out blender enough to make a cockpit
+
+- 'feel' of acceleration FX juiciness (accel and decel)
+-  figure out cockpit
+    -  figure out blender enough to make a cockpit
+- get sounds for thrusters
+	
+	
+	
+Controls tutorials
+https://kidscancode.org/godot_recipes/3d/spaceship/
+	
+	
+GRAND IDEAS
+	- shadow of the colossus but with spaceships
+	- sense of speed
+		- lots of debris asteroids to zoom and hide behind
+		- set amount of rechargeable energy to zoom, and brake
+			- zoom shake!
+			
