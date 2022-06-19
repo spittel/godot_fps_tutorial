@@ -3,8 +3,7 @@ extends KinematicBody
 # new control code
 ##################################
 export var max_speed = 50
-# model faces backwards
-export var acceleration = -0.6
+export var acceleration = 0.6
 export var pitch_speed = 1.5
 export var roll_speed = 1.9
 export var yaw_speed = 1.25  # Set lower for linked roll/yaw
@@ -50,8 +49,8 @@ func get_input(delta):
 			-Input.get_action_strength("throttle_down")*50,
 			acceleration * delta)
 			
-	if(-1*forward_speed > max_speed):
-		forward_speed = -max_speed
+	if(forward_speed > max_speed):
+		forward_speed = max_speed
 			
 	is_drift = Input.is_action_pressed("drift")
 	
@@ -91,11 +90,11 @@ func _physics_process(delta):
 
 
 	if !is_drift:
-		velocity = -transform.basis.z * forward_speed + transform.basis.y * vert_speed + transform.basis.x * horiz_speed
+		velocity = transform.basis.z * -forward_speed + transform.basis.y * vert_speed + transform.basis.x * horiz_speed
 #	else:
 #		velocity = -velocity.z*1.0 + transform.basis.y * vert_speed + transform.basis.x * horiz_speed
 
 	
-	$HUD/Panel/Gun_label.text= "Velocity:" + str(-1 * int(forward_speed))
+	$HUD/Panel/Gun_label.text= "Velocity:" + str(int(forward_speed))
 	
 	move_and_collide(velocity * delta)
