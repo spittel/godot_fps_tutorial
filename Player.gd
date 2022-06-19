@@ -11,19 +11,17 @@ export var yaw_speed = 1.25  # Set lower for linked roll/yaw
 export var input_response = 8.0
 
 var velocity = Vector3.ZERO
+
 var forward_speed = 0
+var horiz_speed = 0
+var vert_speed = 0
+
 var pitch_input = 0
 var roll_input = 0
 var yaw_input = 0
 
 var is_drift = false
 
-
-var horiz_speed = 0
-var vert_speed = 0
-##################################
-# old control code
-##################################
 var MOUSE_SENSITIVITY = 0.05
 var camera
 var rotation_helper
@@ -51,6 +49,9 @@ func get_input(delta):
 		forward_speed = lerp(forward_speed,
 			-Input.get_action_strength("throttle_down")*50,
 			acceleration * delta)
+			
+	if(-1*forward_speed > max_speed):
+		forward_speed = -max_speed
 			
 	is_drift = Input.is_action_pressed("drift")
 	
@@ -87,11 +88,14 @@ func _physics_process(delta):
 	
 	transform.basis = transform.basis.orthonormalized()
 
+
+
 	if !is_drift:
 		velocity = -transform.basis.z * forward_speed + transform.basis.y * vert_speed + transform.basis.x * horiz_speed
+#	else:
+#		velocity = -velocity.z*1.0 + transform.basis.y * vert_speed + transform.basis.x * horiz_speed
+
 	
-	
-	
-	$HUD/Panel/Gun_label.text= "Velocity:" + str(-1 * int(forward_speed * 10))
+	$HUD/Panel/Gun_label.text= "Velocity:" + str(-1 * int(forward_speed))
 	
 	move_and_collide(velocity * delta)
