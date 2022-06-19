@@ -2,7 +2,8 @@
     -  make walls and ground invisible
     -  put in a dark world environent
 	- TODO: get a spacey skybox?
-	- TODO: volumetric nebula in Blenderhttps://www.youtube.com/watch?v=kYv3ZIlb_sU
+	- TODO: volumetric nebula in Blender
+		https://www.youtube.com/watch?v=kYv3ZIlb_sU
 
 - TODO: reverse thruster sound https://freesound.org/browse/tags/thruster/?page=2#sound
 
@@ -39,7 +40,16 @@ Controls tutorials
 https://kidscancode.org/godot_recipes/3d/spaceship/
 	
 	
+	
+	
+	
 GRAND IDEAS
+NAMES:
+	White knuckling
+	Close Quarters Space COmbat
+	Titan Killer
+	Thrust
+
 	- shadow of the colossus but with spaceships
 	- sense of speed
 		- lots of debris asteroids to zoom and hide behind

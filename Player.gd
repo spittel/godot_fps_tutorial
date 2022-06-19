@@ -101,15 +101,11 @@ func handle_thrust(delta):
 		decel_to_center(FX_GET_TO_CENTER)
 		forward_speed = max_speed
 	
-			
-
-
 func get_to_center():
 	if($Camera_Spatial.translation.z > cam_origin.z):
 		decel_to_center(FX_GET_TO_CENTER)
 	elif($Camera_Spatial.translation.z < cam_origin.z):
 		accel_to_center(FX_GET_TO_CENTER)
-
 
 func decel_to_center(decel):
 	if($Camera_Spatial.translation != cam_origin):
