@@ -56,7 +56,7 @@ func get_input(delta):
 	
 
 	pitch_input = lerp(pitch_input,
-			Input.get_action_strength("pitch_down") - Input.get_action_strength("pitch_up"),
+			Input.get_action_strength("pitch_up") - Input.get_action_strength("pitch_down"),
 			input_response * delta)
 			
 	roll_input = lerp(roll_input,
@@ -69,7 +69,7 @@ func get_input(delta):
 
 	# saggital plane
 	horiz_speed = lerp(horiz_speed,
-			Input.get_action_strength("horiz_left")*50 - Input.get_action_strength("horiz_right")*50,
+			Input.get_action_strength("horiz_right")*50 - Input.get_action_strength("horiz_left")*50,
 			input_response * delta)
 
 	vert_speed = lerp(vert_speed,
@@ -86,8 +86,6 @@ func _physics_process(delta):
 	transform.basis = transform.basis.rotated(transform.basis.y, yaw_input * yaw_speed * delta)
 	
 	transform.basis = transform.basis.orthonormalized()
-
-
 
 	if !is_drift:
 		velocity = transform.basis.z * -forward_speed + transform.basis.y * vert_speed + transform.basis.x * horiz_speed

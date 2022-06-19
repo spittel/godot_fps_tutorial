@@ -1,21 +1,55 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 
-[sub_resource type="PlaneMesh" id=1]
-size = Vector2( 80, 80 )
+[sub_resource type="SphereMesh" id=25]
+radius = 28.891
+height = 59.844
 
-[sub_resource type="CanvasItemMaterial" id=18]
+[sub_resource type="Skin" id=26]
 
-[sub_resource type="SpatialMaterial" id=2]
-next_pass = SubResource( 18 )
-albedo_color = Color( 0.701961, 0.490196, 0.0392157, 1 )
-metallic = 0.37
-metallic_specular = 0.65
-roughness = 0.49
+[sub_resource type="SpatialMaterial" id=27]
+albedo_color = Color( 1, 1, 0.376471, 1 )
+roughness = 0.35
 
 [sub_resource type="BoxShape" id=3]
 extents = Vector3( 40, 0.1, 40 )
+
+[sub_resource type="CubeMesh" id=19]
+custom_aabb = AABB( 0, 0, 0, 2, 2, 2 )
+size = Vector3( 100, 1, 100 )
+
+[sub_resource type="SpatialMaterial" id=28]
+albedo_color = Color( 0.0431373, 0.00392157, 0.00392157, 1 )
+roughness = 0.24
+
+[sub_resource type="CubeMesh" id=20]
+size = Vector3( 100, 20, 100 )
+
+[sub_resource type="SpatialMaterial" id=22]
+albedo_color = Color( 0.14902, 0.686275, 0.67451, 1 )
+metallic = 0.56
+metallic_specular = 0.28
+roughness = 0.33
+
+[sub_resource type="CubeMesh" id=21]
+size = Vector3( 100, 20, 100 )
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.0392157, 0.164706, 0.701961, 1 )
+metallic = 0.77
+metallic_specular = 0.14
+roughness = 0.43
+
+[sub_resource type="SpatialMaterial" id=23]
+albedo_color = Color( 0.27451, 0.760784, 0.270588, 1 )
+roughness = 0.11
+
+[sub_resource type="SpatialMaterial" id=24]
+albedo_color = Color( 1, 0.584314, 0, 1 )
+metallic = 0.48
+metallic_specular = 0.03
+roughness = 0.32
 
 [sub_resource type="SphereMesh" id=4]
 radius = 3.0
@@ -39,7 +73,6 @@ tonemap_mode = 3
 tonemap_exposure = 1.21
 ssao_enabled = true
 ssao_light_affect = 1.0
-dof_blur_far_enabled = true
 dof_blur_far_distance = 463.16
 dof_blur_far_transition = 0.09
 dof_blur_far_amount = 0.08
@@ -47,8 +80,6 @@ glow_enabled = true
 glow_levels/1 = true
 glow_levels/2 = true
 glow_levels/5 = false
-glow_intensity = 1.22
-glow_strength = 1.1
 glow_bloom = 0.08
 glow_blend_mode = 0
 glow_bicubic_upscale = true
@@ -58,84 +89,100 @@ adjustment_enabled = true
 
 [node name="Box" type="Spatial" parent="."]
 
-[node name="Floor_plane" type="MeshInstance" parent="Box"]
+[node name="Floor_Ball" type="MeshInstance" parent="Box"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -100, 0 )
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+mesh = SubResource( 25 )
+skin = SubResource( 26 )
+material/0 = SubResource( 27 )
 
-[node name="StaticBody" type="StaticBody" parent="Box/Floor_plane"]
+[node name="StaticBody" type="StaticBody" parent="Box/Floor_Ball"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Box/Floor_plane/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Box/Floor_Ball/StaticBody"]
 shape = SubResource( 3 )
 
 [node name="Celing_plane" type="MeshInstance" parent="Box"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0, 100, 0 )
+transform = Transform( 1, 0, 0, 0, -20, 3.89414e-07, 0, -7.78829e-06, -1, 0, 100, 0 )
 cast_shadow = 2
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+mesh = SubResource( 19 )
+material/0 = SubResource( 28 )
 
 [node name="StaticBody" type="StaticBody" parent="Box/Celing_plane"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Box/Celing_plane/StaticBody"]
 shape = SubResource( 3 )
 
-[node name="Wall_1" type="MeshInstance" parent="Box"]
+[node name="Back Wall" type="MeshInstance" parent="Box"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, -0.641, 37.075, 100 )
 cast_shadow = 2
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+mesh = SubResource( 20 )
+material/0 = SubResource( 22 )
 
-[node name="StaticBody" type="StaticBody" parent="Box/Wall_1"]
+[node name="StaticBody" type="StaticBody" parent="Box/Back Wall"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Box/Wall_1/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Box/Back Wall/StaticBody"]
 shape = SubResource( 3 )
 
-[node name="Wall_2" type="MeshInstance" parent="Box"]
-transform = Transform( -1.62921e-07, -1, 0.000345306, 0, 0.000345306, 1, -1, 1.62921e-07, -5.62574e-11, 100, 37.075, 0.085 )
+[node name="Right Wall" type="MeshInstance" parent="Box"]
+transform = Transform( -0.45452, -0.541675, 0.707107, 0.454519, 0.541675, 0.707107, -0.766044, 0.642788, -3.09086e-08, 100, 37.075, 0.085 )
 cast_shadow = 2
-mesh = SubResource( 1 )
+mesh = SubResource( 21 )
 material/0 = SubResource( 2 )
 
-[node name="StaticBody" type="StaticBody" parent="Box/Wall_2"]
+[node name="StaticBody" type="StaticBody" parent="Box/Right Wall"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Box/Wall_2/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Box/Right Wall/StaticBody"]
 shape = SubResource( 3 )
 
-[node name="Wall_3" type="MeshInstance" parent="Box"]
-transform = Transform( -1.62921e-07, 1, -0.000488118, 0, 0.000488118, 1, 1, 1.62921e-07, -7.95246e-11, -100, 37.075, 0.085 )
+[node name="Left Wall" type="MeshInstance" parent="Box"]
+transform = Transform( 0.707107, 0.707107, 3.09086e-08, 0, -4.37114e-08, 1, 0.707107, -0.707107, -3.09086e-08, -100.312, 37.075, 0.085 )
 cast_shadow = 2
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+mesh = SubResource( 21 )
+material/0 = SubResource( 23 )
 
-[node name="StaticBody" type="StaticBody" parent="Box/Wall_3"]
+[node name="StaticBody" type="StaticBody" parent="Box/Left Wall"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Box/Wall_3/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Box/Left Wall/StaticBody"]
 shape = SubResource( 3 )
 
-[node name="Wall_4" type="MeshInstance" parent="Box"]
-transform = Transform( -1, 3.89414e-07, 1.70218e-14, 0, -4.37114e-08, 1, 3.89414e-07, 1, 4.37114e-08, -0.569, 37.075, -100 )
+[node name="Front Wall" type="MeshInstance" parent="Box"]
+transform = Transform( -0.819152, 0.538986, 0.196175, 0, -0.34202, 0.939693, 0.573576, 0.769751, 0.280166, -0.569, 37.075, -100 )
 cast_shadow = 2
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+generate_lightmap = false
+mesh = SubResource( 21 )
+material/0 = SubResource( 24 )
 
-[node name="StaticBody" type="StaticBody" parent="Box/Wall_4"]
+[node name="StaticBody" type="StaticBody" parent="Box/Front Wall"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Box/Wall_4/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Box/Front Wall/StaticBody"]
 shape = SubResource( 3 )
 
-[node name="OmniLight" type="OmniLight" parent="Box"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 80, 0 )
+[node name="Light behind" type="OmniLight" parent="Box"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 60, 65.8124 )
+light_color = Color( 0.270588, 0.917647, 0.94902, 1 )
 shadow_enabled = true
 shadow_bias = 0.4
-omni_range = 60.0
+omni_range = 133.212
 
-[node name="MeshInstance" type="MeshInstance" parent="Box/OmniLight"]
+[node name="MeshInstance" type="MeshInstance" parent="Box/Light behind"]
+cast_shadow = 0
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
+
+[node name="Light Above" type="OmniLight" parent="Box"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70.1052, 0 )
+shadow_enabled = true
+shadow_color = Color( 0.972549, 0.972549, 0.972549, 1 )
+shadow_bias = 0.4
+omni_range = 189.333
+omni_attenuation = 0.757859
+
+[node name="MeshInstance" type="MeshInstance" parent="Box/Light Above"]
 cast_shadow = 0
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
 
 [node name="OmniLight2" type="OmniLight" parent="Box"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -90, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -41.929, -56.6034 )
 shadow_enabled = true
 shadow_bias = 0.4
 omni_range = 60.0
